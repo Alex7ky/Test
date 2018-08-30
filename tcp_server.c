@@ -146,16 +146,3 @@ int main(int argc, char *argv[])
 
 	return EXIT_SUCCESS;
 }
-
-void reverse_string(char *input, char *output) {
-
-	int len_input_str = strlen(input);
-
-	for (int i = 0; i < len_input_str; i++) {
-		output[i] = input[len_input_str - i - 1];
-	}
-
-	output[len_input_str] = '\0';
-
-	return;
-}

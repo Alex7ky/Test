@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 		}
 
 		if (count == count_packet) {
-			write_bytes = fwrite(buffer, size_last_packet, sizeof(char), file_ptr);
+			write_bytes = fwrite(buffer, sizeof(char), size_last_packet, file_ptr);
 			
 			break;
 		}
