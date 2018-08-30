@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 		bzero(buffer, BUFFER_SIZE);
 
 		read_bytes = fread(buffer, sizeof(char),  BUFFER_SIZE, file_ptr);
-		
+
 		send_bytes = send(client_sock_fd, buffer, BUFFER_SIZE, 0);
 		
 		if (send_bytes < 0) {

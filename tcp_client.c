@@ -85,8 +85,12 @@ int main(int argc, char *argv[])
 	long sz = 0, count = 0, count_packet = 0, size_last_packet = 0;
 	recv(tcp_socket_fd, &sz, sizeof(long), 0);
 	
-	count_packet = sz / 1024;
-	size_last_packet = sz - (count_packet * 1024);
+	count_packet = sz / BUFFER_SIZE;
+
+	size_last_packet = sz - (count_packet * BUFFER_SIZE);
+	
+	if (sz % BUFFER_SIZE > 0) 
+		count_packet++;
 	
 	printf("%ld %ld\n", sz, count_packet);
 	
@@ -94,7 +98,8 @@ int main(int argc, char *argv[])
 		bzero(buffer, BUFFER_SIZE);
 
 		read_bytes = recv(tcp_socket_fd, buffer, BUFFER_SIZE, 0);
-		
+		count++;
+			
 		if (read_bytes < 0) {
 			fprintf(stderr, "[ERROR #7] Failed receiving message: %s\n", strerror(errno));
 			
@@ -108,7 +113,7 @@ int main(int argc, char *argv[])
 		}
 		
 		write_bytes = fwrite(buffer, sizeof(char), BUFFER_SIZE, file_ptr);
-		count++;
+
 	} while (1);
 
 	fclose(file_ptr);
