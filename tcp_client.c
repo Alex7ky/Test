@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
 			break;
 		}
 		
-		write_bytes = fwrite(buffer, BUFFER_SIZE, sizeof(char), file_ptr);
+		write_bytes = fwrite(buffer, sizeof(char), BUFFER_SIZE, file_ptr);
 		count++;
 	} while (1);
 

@@ -18,7 +18,7 @@ void reverse_string(char *input, char *output);
 FILE *open_file(char *file_name) {
 	FILE *file_ptr;
 	
-	if((file_ptr = fopen(file_name, "r")) == NULL) {
+	if((file_ptr = fopen(file_name, "r+")) == NULL) {
 		printf("[ERROR #12] Ошибка при открытии файла.\n");
 	}
 	
@@ -107,13 +107,14 @@ int main(int argc, char *argv[])
 	fseek(file_ptr, 0L, SEEK_END);
 	sz = ftell(file_ptr);
 	printf("%ld\n", sz);
+	fseek(file_ptr, 0L, SEEK_SET);
 	
 	send(client_sock_fd, &sz, sizeof(long), 0);
 	
 	do {
 		bzero(buffer, BUFFER_SIZE);
 
-		read_bytes = fread(buffer, BUFFER_SIZE, sizeof(char), file_ptr);
+		read_bytes = fread(buffer, sizeof(char),  BUFFER_SIZE, file_ptr);
 		
 		send_bytes = send(client_sock_fd, buffer, BUFFER_SIZE, 0);
 		
@@ -123,7 +124,7 @@ int main(int argc, char *argv[])
 			break;
 		}
 		
-		if (read_bytes == 0) {
+		if (feof(file_ptr)) {
 			break;
 		}
 
